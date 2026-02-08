@@ -27,7 +27,7 @@ func main() {
 	delete(studentGrades, key)
 	fmt.Println(studentGrades)
 
-	var configs = make(map[string]int)
+	configs := make(map[string]int)
 	fmt.Printf("%v %T\n", configs, configs)
 
 	if configs == nil {
