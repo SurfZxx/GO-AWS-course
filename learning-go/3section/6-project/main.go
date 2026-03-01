@@ -11,7 +11,7 @@ type Contact struct {
 
 var contactList []Contact
 var contactIndexByName map[string]int
-var nextId int = 1
+var nextId = 1
 
 func init() {
 	contactList = make([]Contact, 0)
@@ -21,6 +21,7 @@ func init() {
 func addContact(name, email, phone string) {
 	if _, exists := contactIndexByName[name]; exists {
 		fmt.Printf("Contact already exists: %v\n", name)
+		return
 	}
 	newContact := Contact{
 		ID:    nextId,
@@ -48,12 +49,24 @@ func ListContacts() {
 		fmt.Println("No contacts found.")
 		return
 	}
-	for _, contact := range contactList {
-		fmt.Printf("ID: %d, Name: %s, Email: %s, Phone: %s\n", contact.ID, contact.Name, contact.Email, contact.Phone)
+	for i, contact := range contactList {
+		fmt.Printf("%d. ID: %d, Name: %s, Email: %s, Phone: %s\n", i+1, contact.ID, contact.Name, contact.Email, contact.Phone)
 	}
-	fmt.Printf("")
 }
 
 func main() {
 	ListContacts()
+
+	addContact("Alice", "alice@example.com", "123-456-7890")
+	addContact("Bob", "bob@example.com", "098-765-4321")
+	addContact("Alice", "alice@example.com", "123-456-7890") // duplicate to test addContact
+	ListContacts()
+
+	name := "Hugo"
+	contact := findContactByName(name)
+	if contact != nil {
+		fmt.Printf("Contact found: %v\n", *contact)
+	} else {
+		fmt.Printf("Contact not found: %v\n", name)
+	}
 }
